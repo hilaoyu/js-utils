@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "hilaoyu"
+  },
+  "name": "js-utils",
+  "version": "1.0.0",
+  "description": "js utils",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hilaoyu/js-utils.git"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "js-base64": "^3.7.7",
+    "js-cookie": "^3.0.5",
+    "p-queue": "^8.0.1",
+    "url": "^0.11.3",
+    "uuid": "^9.0.1"
+  }
+}
