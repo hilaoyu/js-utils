@@ -19,7 +19,6 @@ export function setAxiosGlobalLoadingServiceHandle(loadingService) {
 }
 
 function extendAxios(_axios) {
-    _axios.defaults.withCredentials = true
     _axios.defaults.timeout = 0
     _axios.buildAxiosRequestConfig = (reqConfig, data, headers, method)=> {
         let axiosReqConfig
