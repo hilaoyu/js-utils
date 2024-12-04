@@ -225,14 +225,6 @@ export class Uploader {
                 const req = _this.client.apiRequest({
                     url:"/upload",
                     method:"post",
-                    onUploadProgress:function (progressEvent){
-                        const { loaded, total } = progressEvent;
-                        const percentCompleted = Math.round(((loaded * 100) / total)/fileQueueItem.chunks);
-
-
-                        fileQueueItem.chunksCompletedPercent = Math.min(100,fileQueueItem.chunksCompletedPercent + percentCompleted)
-                        _this.triggerEventFileQueueChange(fileQueueItem)
-                    },
                     headers: {
                         'Content-Encoding': 'multipart/form-data'
                     },
