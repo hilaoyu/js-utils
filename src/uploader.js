@@ -236,10 +236,12 @@ export class Uploader {
                          fileQueueItem.chunksCompleted.push(i)
                          let completedPercent = Utils.valueGet(res,"data.chunks_completed_percent",0)
                          let completed = Utils.valueGet(res,"data.upload_completed",false)
+                         let previewUrl = Utils.valueGet(res,"data.preview_url",false)
                          if(completedPercent > fileQueueItem.chunksCompletedPercent ){
                              fileQueueItem.chunksCompletedPercent = Math.min(100,completedPercent)
                          }
                          if (completed) {
+                             fileQueueItem.previewUrl = previewUrl
                              fileQueueItem.uploadCompleted = completed
                              fileQueueItem.chunksCompletedPercent = 100
                          }
