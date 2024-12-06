@@ -41,11 +41,11 @@ export class Uploader {
         console.log("completedTaskIds:",completedTaskIds)
         console.log("uncompletedTaskIds:",uncompletedTaskIds)
     }
-    triggerEventUploadFinished(){
-        if(this.fileQueue.length <= 0){
-           return
-        }
+    triggerEventUploadFinished(force ){
         if(this.requestQueue.size > 0){
+            return
+        }
+        if(!force && this.fileQueue.length <= 0){
             return
         }
         let completedTaskIds = []
@@ -278,7 +278,7 @@ export class Uploader {
         this.requestQueue.clear()
         this.fileQueue = []
         this.triggerEventFileQueueChange()
-        this.triggerEventUploadFinished()
+        this.triggerEventUploadFinished(true)
     }
 
     fileQueueRemove(index){
@@ -289,7 +289,7 @@ export class Uploader {
         this.fileQueue.splice(index,1)
 
         this.triggerEventFileQueueChange()
-        this.triggerEventUploadFinished()
+        this.triggerEventUploadFinished(true)
     }
 
 }
