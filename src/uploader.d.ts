@@ -8,7 +8,7 @@ export interface fileQueueItem {
 	chunksCompleted:Array<number>,
 	chunksCompletedPercent:number,
 	uploadCompleted:boolean,
-	previewUrl:boolean,
+	previewUrl:string,
 	error:string,
 	controller:AbortController,
 	remove():void
