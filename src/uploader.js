@@ -9,7 +9,7 @@ export class Uploader {
         this.requestQueue = new pQueue({concurrency: 1, autoStart: autoStart})
         let _this = this
         this.requestQueue.on('idle',()=>{
-            _this.triggerEventUploadFinished()
+            _this.triggerEventUploadFinished(false)
         })
     }
 
