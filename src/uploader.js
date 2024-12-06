@@ -45,7 +45,7 @@ export class Uploader {
         if(this.fileQueue.length <= 0){
            return
         }
-        if(this.requestQueue.size() > 0){
+        if(this.requestQueue.size > 0){
             return
         }
         let completedTaskIds = []
