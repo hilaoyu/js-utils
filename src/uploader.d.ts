@@ -1,5 +1,3 @@
-import {AxiosExStatic} from "./axios";
-import pQueue from "p-queue";
 
 export interface fileQueueItem {
 	file:File,
@@ -9,26 +7,19 @@ export interface fileQueueItem {
 	chunksCompletedPercent:number,
 	uploadCompleted:boolean,
 	previewUrl:string,
-	error:string,
+	errorMessage:string,
 	controller:AbortController,
 	remove():void
 }
 
 export class Uploader  {
-	serverUrl:string
-	fileLimitMaxSize:number
-	fileLimitAllowExt:Array<string>
-	chunkSize:number
-	limitMaxThreads:number
-	client:AxiosExStatic
-	fileQueue:Array<fileQueueItem>
-	requestQueue:pQueue
 	constructor(serverUrl:string,autoStart:boolean)
 	setServerUrl(url:string):void
 	setFileLimitMaxSize(v:number):void
 	setFileLimitAllowExt(v:Array<string>):void
 	setChunkSize(v:number):void
 	setLimitMaxThreads(v:number):void
+	isReady():boolean
 	selectFile(multiple:boolean,allowExt?:Array<string>):void
 	addFile(file:File):void
 	getFileQueue():Array<fileQueueItem>

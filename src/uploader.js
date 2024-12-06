@@ -1,6 +1,7 @@
 import Utils from './utils';
 import {axios} from "./axios";
 import pQueue from "p-queue";
+import utils from "./utils";
 
 export class Uploader {
     constructor(serverUrl, autoStart) {
@@ -112,6 +113,10 @@ export class Uploader {
             this.limitMaxThreads = v
             this.requestQueue.concurrency(v)
         }
+    }
+
+    isReady(){
+        return !Utils.isEmpty(this.serverUrl)
     }
 
     selectFile(multiple, allowExt) {
@@ -248,7 +253,7 @@ export class Uploader {
                      })
                 } catch (error) {
                     if (!(error instanceof CancelError)) {
-                        fileQueueItem.error = error.message
+                        fileQueueItem.errorMessage = error.message
                     }
                 }finally {
                     _this.triggerEventFileQueueChange(fileQueueItem)
