@@ -45,6 +45,9 @@ export class Uploader {
         if(this.fileQueue.length <= 0){
            return
         }
+        if(this.requestQueue.size() > 0){
+            return
+        }
         let completedTaskIds = []
         let uncompletedTaskIds = []
         this.fileQueue.forEach((item)=>{
@@ -274,6 +277,8 @@ export class Uploader {
     clear(){
         this.requestQueue.clear()
         this.fileQueue = []
+        this.triggerEventFileQueueChange()
+        this.triggerEventUploadFinished()
     }
 
     fileQueueRemove(index){
@@ -281,9 +286,10 @@ export class Uploader {
             return
         }
         this.fileQueue[index].controller.abort("")
-
         this.fileQueue.splice(index,1)
+
         this.triggerEventFileQueueChange()
+        this.triggerEventUploadFinished()
     }
 
 }
