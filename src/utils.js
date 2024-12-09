@@ -200,9 +200,10 @@ export const Utils = {
             let _this = this;
             window.addEventListener('keyup', function (event) {
                 let code;
-                if (event.key !== undefined) {
-                    code = event.key.toLowerCase();
+                if (event.key === undefined) {
+                    return
                 }
+                code = event.key.toLowerCase();
 
                 let events = _this.valueGet(_this._keyUpEvents, code, {});
 
