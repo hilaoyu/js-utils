@@ -72,7 +72,7 @@ function extendAxios(_axios) {
             response,
         );
         if (!res_data) {
-            return _axios.interceptorsResponseError(axiosError);
+            return Promise.reject(axiosError);
         }
 
         let res_code = Utils.valueGet(res_data, 'code', 0);
@@ -111,7 +111,7 @@ function extendAxios(_axios) {
                     }
                 }
                 if (!forward_url || !forward_return_api) {
-                    return _axios.interceptorsResponseError(AxiosError(
+                    return Promise.reject(AxiosError(
                         '~:',
                         null,
                         response.config,
@@ -152,7 +152,7 @@ function extendAxios(_axios) {
         let res_status = Utils.valueGet(res_data, 'status', false);
 
         if (true !== res_status) {
-            return _axios.interceptorsResponseError(axiosError);
+            return Promise.reject(axiosError);
         }
         return res_data;
     }
