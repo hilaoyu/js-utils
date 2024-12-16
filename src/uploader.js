@@ -169,7 +169,7 @@ export class Uploader {
     fileQueueAdd(file) {
         let _this = this
         if (_this.fileLimitMaxSize > 0 && file.size > _this.fileLimitMaxSize) {
-            _this.triggerEventError(new Error("文件大小超出限制:" + _this.fileLimitMaxSize))
+            _this.triggerEventError(new Error("文件大小超出限制:" + Utils.formatFileSize(_this.fileLimitMaxSize)))
             return
         }
         let chunks = Math.ceil(file.size / _this.chunkSize)
