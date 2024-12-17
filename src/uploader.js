@@ -173,7 +173,7 @@ export class Uploader {
             return
         }
         let chunks = Math.ceil(file.size / _this.chunkSize)
-        _this.client.apiRequest({url: '/generate-task', method: "post"}, {
+        _this.client.quiet().apiRequest({url: '/generate-task', method: "post"}, {
             file_name: file.name,
             size: file.size,
             chunks: chunks,
@@ -230,7 +230,7 @@ export class Uploader {
                 const end = start + _this.chunkSize;
                 const sliceBlob = fileQueueItem.file.slice(start, end);
                 formData.append('file', sliceBlob); // 替换为你的文件路径
-                const req = _this.client.apiRequest({
+                const req = _this.client.quiet().apiRequest({
                     url:"/upload",
                     method:"post",
                     headers: {
