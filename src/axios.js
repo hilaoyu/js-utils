@@ -18,29 +18,31 @@ export function setAxiosGlobalLoadingServiceHandle(loadingService) {
     axiosGlobalLoadingServiceHandle = loadingService
 }
 
-function responseError(error){
-    if (!Utils.typeIs('object', error)) {
-        error = new AxiosError()
-    }
-    let msg = Utils.valueGet(error, 'response.data.message', '')
-    if ('CSRF token mismatch.' === msg) {
-        msg = '页面已过期，请刷新重试';
-    } else if ('Unauthenticated.' === msg) {
-        msg = '权限不足!'
-    }
-    if (!Utils.isEmpty(msg)) {
-        error.message += ":" + msg
-    }
-
-    let errors = Utils.valueGet(error, 'response.data.errors', {})
-    if (!Utils.isEmpty(errors)) {
-        error.message += ":" + Utils.joinToString(errors, "<br>")
-    }
-    return error
-}
-
 function extendAxios(_axios) {
     _axios.defaults.timeout = 0
+    _axios.promiseRejectError = (error) => {
+        if (!Utils.typeIs('object', error)) {
+            error = new AxiosError()
+        }
+        let msg = Utils.valueGet(error, 'response.data.message', '')
+        if ('CSRF token mismatch.' === msg) {
+            msg = '页面已过期，请刷新重试';
+        } else if ('Unauthenticated.' === msg) {
+            msg = '权限不足!'
+        }
+        if (!Utils.isEmpty(msg)) {
+            error.message += ":" + msg
+        }
+
+        let errors = Utils.valueGet(error, 'response.data.errors', {})
+        if (!Utils.isEmpty(errors)) {
+            error.message += ":" + Utils.joinToString(errors, "<br>")
+        }
+        if (true !== _axios.requestIsQuiet) {
+            _axios.message(error.message, 'error')
+        }
+        return Promise.reject(error);
+    }
     _axios.buildAxiosRequestConfig = (reqConfig, data, headers, method)=> {
         let axiosReqConfig
         if (Utils.typeIs('string', reqConfig)) {
@@ -94,7 +96,7 @@ function extendAxios(_axios) {
         );
         if (!res_data) {
             axiosError.message = "返回数据为空"
-            return Promise.reject(axiosError);
+            return _axios.promiseRejectError(axiosError)
         }
 
         let res_code = Utils.valueGet(res_data, 'code', 0);
@@ -133,13 +135,7 @@ function extendAxios(_axios) {
                     }
                 }
                 if (!forward_url || !forward_return_api) {
-                    return Promise.reject(AxiosError(
-                        '~:',
-                        null,
-                        response.config,
-                        response.request,
-                        response,
-                    ));
+                    return _axios.promiseRejectError(axiosError);
                 }
 
                 let forward_use_params = true;
@@ -174,19 +170,13 @@ function extendAxios(_axios) {
         let res_status = Utils.valueGet(res_data, 'status', false);
 
         if (true !== res_status) {
-            return Promise.reject(responseError(axiosError));
+          return _axios.promiseRejectError(axiosError);
         }
         return res_data;
     }
     _axios.interceptorsResponseError = (error) => {
         _axios.tryCloseLoading()
-        error = responseError(error)
-
-        if (true !== _axios.requestIsQuiet) {
-            _axios.message(error.message, 'error')
-        }
-
-        return Promise.reject(error);
+        return _axios.promiseRejectError(error);
     }
     _axios.interceptorsRequestBefore = async (config) => {
 
@@ -210,10 +200,7 @@ function extendAxios(_axios) {
     }
     _axios.interceptorsRequestError = (error) => {
         _axios.tryCloseLoading()
-        if (true !== _axios.requestIsQuiet) {
-            _axios.message(error.message, 'error')
-        }
-        return Promise.reject(error);
+        return _axios.promiseRejectError(error);
     }
 
 
