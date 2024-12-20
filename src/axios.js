@@ -135,6 +135,7 @@ function extendAxios(_axios) {
                     }
                 }
                 if (!forward_url || !forward_return_api) {
+                    axiosError.message = "转发地址错误"
                     return _axios.promiseRejectError(axiosError);
                 }
 

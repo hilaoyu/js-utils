@@ -8,6 +8,7 @@ export interface fileQueueItem {
 	uploadCompleted:boolean,
 	previewUrl:string,
 	errorMessage:string,
+	fileUri:string
 	controller:AbortController,
 	remove():void
 }
@@ -21,10 +22,10 @@ export class Uploader  {
 	setLimitMaxThreads(v:number):void
 	isReady():boolean
 	selectFile(multiple:boolean,allowExt?:Array<string>):void
-	addFile(file:File):void
+	addFile(file:File,multiple?:boolean):void
 	getFileQueue():Array<fileQueueItem>
 	setEventOnError(callback:(err:Error) => void):void
-	setEventOnUploadFinished(callback:(completedTaskIds:Array<string>,uncompletedTaskIds:Array<string>) => void):void
+	setEventOnUploadFinished(callback:(completedFileUris:Array<string>) => void):void
 	setEventOnFileQueueChange(callback:(queue:Array<fileQueueItem>,changedIndex?:number) => void):void
 	startUpload():void
 	pauseUpload():void

@@ -48,19 +48,16 @@ export class Uploader {
         if(!force && this.fileQueue.length <= 0){
             return
         }
-        let completedTaskIds = []
-        let uncompletedTaskIds = []
+        let completedFileUris = []
         this.fileQueue.forEach((item)=>{
-            if(Utils.isEmpty(item.taskId)){
+            if(Utils.isEmpty(item.fileUri)){
                 return
             }
             if(item.uploadCompleted){
-                completedTaskIds.push(item.taskId)
-            }else{
-                uncompletedTaskIds.push(item.taskId)
+                completedFileUris.push(item.fileUri)
             }
         })
-        this.eventOnUploadFinished(completedTaskIds,uncompletedTaskIds)
+        this.eventOnUploadFinished(completedFileUris)
     }
     setEventOnUploadFinished(callback) {
         if (Utils.typeIs('function', callback)) {
@@ -162,7 +159,10 @@ export class Uploader {
 
         fileSelectInput.click();
     }
-    addFile(file) {
+    addFile(file,multiple) {
+        if(!multiple){
+            this.clear(true)
+        }
         return this.fileQueueAdd(file)
     }
 
@@ -195,6 +195,7 @@ export class Uploader {
                 chunksCompletedPercent: 0,
                 uploadCompleted: false,
                 error: "",
+                fileUri: "",
                 controller:abortController,
                 remove:function (){
                     let i = _this.fileQueue.findIndex((item)=>{return item.file.name === file.name})
@@ -245,11 +246,13 @@ export class Uploader {
                          let completedPercent = Utils.valueGet(res,"data.chunks_completed_percent",0)
                          let completed = Utils.valueGet(res,"data.upload_completed",false)
                          let previewUrl = Utils.valueGet(res,"data.preview_url",false)
+                         let fileUri = Utils.valueGet(res,"data.file_uri",false)
                          if(completedPercent > fileQueueItem.chunksCompletedPercent ){
                              fileQueueItem.chunksCompletedPercent = Math.min(100,completedPercent)
                          }
                          if (completed) {
                              fileQueueItem.previewUrl = previewUrl
+                             fileQueueItem.fileUri = fileUri
                              fileQueueItem.uploadCompleted = completed
                              fileQueueItem.chunksCompletedPercent = 100
                          }
@@ -274,11 +277,14 @@ export class Uploader {
     pauseUpload(){
         this.requestQueue.pause()
     }
-    clear(){
+    clear(ignoreEventFinished){
         this.requestQueue.clear()
         this.fileQueue = []
         this.triggerEventFileQueueChange()
-        this.triggerEventUploadFinished(true)
+        if(!ignoreEventFinished){
+            this.triggerEventUploadFinished(true)
+        }
+
     }
 
     fileQueueRemove(index){
