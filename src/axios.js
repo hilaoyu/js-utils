@@ -96,7 +96,7 @@ function extendAxios(_axios) {
         );
         if (!res_data) {
             axiosError.message = "返回数据为空"
-            return _axios.promiseRejectError(axiosError)
+            return Promise.reject(axiosError)
         }
 
         let res_code = Utils.valueGet(res_data, 'code', 0);
@@ -136,7 +136,7 @@ function extendAxios(_axios) {
                 }
                 if (!forward_url || !forward_return_api) {
                     axiosError.message = "转发地址错误"
-                    return _axios.promiseRejectError(axiosError);
+                    return Promise.reject(axiosError);
                 }
 
                 let forward_use_params = true;
@@ -171,7 +171,7 @@ function extendAxios(_axios) {
         let res_status = Utils.valueGet(res_data, 'status', false);
 
         if (true !== res_status) {
-          return _axios.promiseRejectError(axiosError);
+          return Promise.reject(axiosError);
         }
         return res_data;
     }
