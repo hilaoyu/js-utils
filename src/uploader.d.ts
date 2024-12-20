@@ -2,6 +2,7 @@
 export interface fileQueueItem {
 	file:File,
 	taskId:String,
+	customId:any,
 	chunks:number,
 	chunksCompleted:Array<number>,
 	chunksCompletedPercent:number,
@@ -20,8 +21,10 @@ export class Uploader  {
 	setChunkSize(v:number):void
 	setLimitMaxThreads(v:number):void
 	isReady():boolean
-	selectFile(multiple:boolean,allowExt?:Array<string>):void
-	addFile(file:File,multiple?:boolean):void
+
+	selectFile(multiple:boolean,clearQueue?:boolean,customId?:any,allowExt?:Array<string>):void
+	addFile(file:File,clearQueue?:boolean,customId?:any):void
+
 	getFileQueue():Array<fileQueueItem>
 	setEventOnError(callback:(err:Error) => void):void
 	setEventOnUploadFinished(callback:(completedUrls:Array<string>) => void):void

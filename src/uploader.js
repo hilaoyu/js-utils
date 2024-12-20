@@ -2,6 +2,7 @@ import Utils from './utils';
 import {axios} from "./axios";
 import pQueue from "p-queue";
 import utils from "./utils";
+import md5 from "uuid/dist/esm-node/md5";
 
 export class Uploader {
     constructor(serverUrl, autoStart) {
@@ -119,7 +120,7 @@ export class Uploader {
         return !Utils.isEmpty(this.serverUrl)
     }
 
-    selectFile(multiple, allowExt) {
+    selectFile(multiple,clearQueue,customId, allowExt) {
         let _this = this
         if (Utils.isEmpty(allowExt)) {
             allowExt = this.fileLimitAllowExt
@@ -153,20 +154,20 @@ export class Uploader {
         fileSelectInput.addEventListener('change', function (e) {
             //Get files
             for (let i = 0; i < e.target.files.length; i++) {
-                _this.addFile(e.target.files[i],multiple)
+                _this.addFile(e.target.files[i],clearQueue,customId)
             }
         })
 
         fileSelectInput.click();
     }
-    addFile(file,multiple) {
-        if(!multiple){
+    addFile(file,clearQueue,customId) {
+        if(clearQueue){
             this.clear(true)
         }
-        return this.fileQueueAdd(file)
+        return this.fileQueueAdd(file,customId)
     }
 
-    fileQueueAdd(file) {
+    fileQueueAdd(file,customId) {
         let _this = this
         if (_this.fileLimitMaxSize > 0 && file.size > _this.fileLimitMaxSize) {
             _this.triggerEventError(new Error("文件大小超出限制:" + Utils.formatFileSize(_this.fileLimitMaxSize)))
@@ -190,6 +191,7 @@ export class Uploader {
             let qi = {
                 file: file,
                 taskId: taskId,
+                customId:customId,
                 chunks: chunks,
                 chunksCompleted: [],
                 chunksCompletedPercent: 0,
@@ -208,10 +210,8 @@ export class Uploader {
             _this.triggerEventFileQueueChange(qi)
             _this.requestQueueAdd(qi)
 
-
         }).catch(function (err) {
             _this.triggerEventError(err)
-            return
         })
 
     }
