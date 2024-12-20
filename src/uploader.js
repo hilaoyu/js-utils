@@ -153,7 +153,7 @@ export class Uploader {
         fileSelectInput.addEventListener('change', function (e) {
             //Get files
             for (let i = 0; i < e.target.files.length; i++) {
-                _this.addFile(e.target.files[i])
+                _this.addFile(e.target.files[i],multiple)
             }
         })
 
