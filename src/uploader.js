@@ -1,8 +1,6 @@
 import Utils from './utils';
 import {axios} from "./axios";
 import pQueue from "p-queue";
-import utils from "./utils";
-import md5 from "uuid/dist/esm-node/md5";
 
 export class Uploader {
     constructor(serverUrl, autoStart) {
