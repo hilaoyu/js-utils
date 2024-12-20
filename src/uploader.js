@@ -48,16 +48,16 @@ export class Uploader {
         if(!force && this.fileQueue.length <= 0){
             return
         }
-        let completedFileUris = []
+        let completedUrls = []
         this.fileQueue.forEach((item)=>{
-            if(Utils.isEmpty(item.fileUri)){
+            if(Utils.isEmpty(item.url)){
                 return
             }
             if(item.uploadCompleted){
-                completedFileUris.push(item.fileUri)
+                completedUrls.push(item.url)
             }
         })
-        this.eventOnUploadFinished(completedFileUris)
+        this.eventOnUploadFinished(completedUrls)
     }
     setEventOnUploadFinished(callback) {
         if (Utils.typeIs('function', callback)) {
@@ -245,14 +245,12 @@ export class Uploader {
                          fileQueueItem.chunksCompleted.push(i)
                          let completedPercent = Utils.valueGet(res,"data.chunks_completed_percent",0)
                          let completed = Utils.valueGet(res,"data.upload_completed",false)
-                         let previewUrl = Utils.valueGet(res,"data.preview_url",false)
-                         let fileUri = Utils.valueGet(res,"data.file_uri",false)
+                         let url = Utils.valueGet(res,"data.url",false)
                          if(completedPercent > fileQueueItem.chunksCompletedPercent ){
                              fileQueueItem.chunksCompletedPercent = Math.min(100,completedPercent)
                          }
                          if (completed) {
-                             fileQueueItem.previewUrl = previewUrl
-                             fileQueueItem.fileUri = fileUri
+                             fileQueueItem.url = url
                              fileQueueItem.uploadCompleted = completed
                              fileQueueItem.chunksCompletedPercent = 100
                          }
