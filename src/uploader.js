@@ -36,9 +36,8 @@ export class Uploader {
         }
     }
 
-    eventOnUploadFinished = function (completedTaskIds,uncompletedTaskIds){
-        console.log("completedTaskIds:",completedTaskIds)
-        console.log("uncompletedTaskIds:",uncompletedTaskIds)
+    eventOnUploadFinished = function (completedUrls){
+        console.log("completedUrls:",completedUrls)
     }
     triggerEventUploadFinished(force ){
         if(this.requestQueue.size > 0){
