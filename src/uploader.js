@@ -1,6 +1,6 @@
 import Utils from './utils';
 import {axios} from "./axios";
-import {default as PQueue} from "p-queue";
+import PQueue from "p-queue";
 
 export class Uploader {
     constructor(serverUrl, autoStart) {
