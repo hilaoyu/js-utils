@@ -187,7 +187,7 @@ function extendAxios(_axios) {
             config.headers['X-CSRF-TOKEN'] = token.content;
         }
 
-        if (true === config?.isApiRequest) {
+        if (true === Utils.valueGet(config,"isApiRequest",false)) {
             config.headers['X-Requested-With'] = 'XMLHttpRequest'
         }
 

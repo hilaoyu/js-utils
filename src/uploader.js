@@ -11,7 +11,6 @@ export class Uploader {
             _this.triggerEventUploadFinished(false)
         })
     }
-
     serverUrl = ""
     fileLimitMaxSize = 0
     fileLimitAllowExt = []
