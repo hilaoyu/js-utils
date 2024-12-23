@@ -1,11 +1,11 @@
 import Utils from './utils';
 import {axios} from "./axios";
-import pQueue from "p-queue";
+import PQueue from "p-queue";
 
 export class Uploader {
     constructor(serverUrl, autoStart) {
         this.setServerUrl(serverUrl);
-        this.requestQueue = new pQueue({concurrency: 1, autoStart: autoStart})
+        this.requestQueue = new PQueue({concurrency: 1, autoStart: autoStart})
         let _this = this
         this.requestQueue.on('idle',()=>{
             _this.triggerEventUploadFinished(false)
