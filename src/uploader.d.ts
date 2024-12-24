@@ -32,6 +32,6 @@ export class Uploader  {
 	startUpload():void
 	pauseUpload():void
 	clear():void
-	fileQueueRemove(index:number):void
+	fileQueueRemove(taskId:string):void
 }
 
