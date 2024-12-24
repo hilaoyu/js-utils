@@ -225,7 +225,6 @@ function extendAxios(_axios) {
         if (Utils.typeIs('function', windowMessageHandle)) {
             return windowMessageHandle(msg, type)
         }
-        alert(msg);
     }
 
     _axios.loadingService = null
