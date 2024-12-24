@@ -279,9 +279,6 @@ export class Uploader {
     }
 
     fileQueueRemove(taskId){
-        if(this.fileQueue.length <= index){
-            return
-        }
         let i = this.fileQueue.findIndex((item)=>{return item.taskId === taskId})
         if(i < 0){
             return;
