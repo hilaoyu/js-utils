@@ -108,7 +108,7 @@ export class Uploader {
     setLimitMaxThreads(v) {
         if (Utils.typeIs('number', v)) {
             this.limitMaxThreads = v
-            this.requestQueue.concurrency(v)
+            this.requestQueue.concurrency = v
         }
     }
 
