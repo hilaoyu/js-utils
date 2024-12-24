@@ -196,10 +196,7 @@ export class Uploader {
                 fileUri: "",
                 controller:abortController,
                 remove:function (){
-                    let i = _this.fileQueue.findIndex((item)=>{return item.file.name === file.name})
-                    if(i >= 0){
-                        _this.fileQueueRemove(i)
-                    }
+                    _this.fileQueueRemove(taskId)
                 }
             }
             _this.fileQueue.push(qi)
@@ -281,12 +278,16 @@ export class Uploader {
 
     }
 
-    fileQueueRemove(index){
+    fileQueueRemove(taskId){
         if(this.fileQueue.length <= index){
             return
         }
-        this.fileQueue[index].controller.abort("")
-        this.fileQueue.splice(index,1)
+        let i = this.fileQueue.findIndex((item)=>{return item.taskId === taskId})
+        if(i < 0){
+            return;
+        }
+        this.fileQueue[i].controller.abort("")
+        this.fileQueue.splice(i,1)
 
         this.triggerEventFileQueueChange()
         this.triggerEventUploadFinished(true)
