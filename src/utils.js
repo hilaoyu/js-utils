@@ -309,6 +309,19 @@ export const Utils = {
             }
         });
         return result;
+    },
+    linkClick:function (url,target){
+        if (this.isEmpty(url)) {
+            return;
+        }
+        let link = document.createElement('a')
+        if(!!target){
+            link.setAttribute("target", target)
+        }
+
+        link.setAttribute("href", url)
+        link.click()
+        return
     }
 }
 export default Utils

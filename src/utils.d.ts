@@ -32,6 +32,7 @@ export interface UtilsStatic  {
 
 	formatFileSize(value : number): string;
 	urlGetQueryParameter(name : string): string;
+	linkClick(url:string,target?:string): void;
 }
 
 export const Utils:UtilsStatic
