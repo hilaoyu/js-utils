@@ -16,10 +16,10 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.6.8",
+    "axios": "^1.7.9",
     "js-base64": "^3.7.7",
-    "js-cookie": "^2.2.1",
-    "p-queue": "^7.4.1",
+    "js-cookie": "^3.05",
+    "p-queue": "^8.01",
     "url": "^0.11.3",
     "uuid": "^9.0.1"
   }
