@@ -65,7 +65,10 @@ export class Uploader {
     eventOnFileQueueChange = function (queue, changedIndex) {
         console.log(queue)
         console.log(changedIndex)
-        console.log(queue[changedIndex].chunksCompletedPercent)
+        if(changedIndex >= 0 && queue.length > changedIndex){
+            console.log(queue[changedIndex].chunksCompletedPercent)
+        }
+
     }
     triggerEventFileQueueChange(current) {
         if (Utils.typeIs('function', this.eventOnFileQueueChange)) {
