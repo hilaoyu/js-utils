@@ -20,6 +20,7 @@ export function setAxiosGlobalLoadingServiceHandle(loadingService) {
 
 function extendAxios(_axios) {
     _axios.defaults.timeout = 0
+    _axios.defaults.withCredentials = true
     _axios.promiseRejectError = (error) => {
         if (!Utils.typeIs('object', error)) {
             error = new AxiosError()
