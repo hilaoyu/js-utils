@@ -1,4 +1,5 @@
 import {AxiosResponse, AxiosRequestConfig, AxiosInstance} from "axios";
+export {AxiosError,AxiosRequestConfig} from 'axios'
 export function setAxiosGlobalMessageHandle(callback: CallableFunction): void;
 export function setAxiosGlobalBaseUrl(uri: string): void;
 export function setAxiosGlobalLoadingServiceHandle(callback: CallableFunction): void;

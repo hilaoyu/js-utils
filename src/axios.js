@@ -1,9 +1,9 @@
-import {AxiosError,default as axiosOrg } from 'axios'
+import {AxiosError,default as axiosOrg ,async} from 'axios'
 import Utils from "./utils";
 import Url from "url";
 let axiosGlobalMessageHandle = null
 let axiosGlobalBaseUrl = ''
-
+export {AxiosError,AxiosRequestConfig} from 'axios'
 export function setAxiosGlobalMessageHandle(callback) {
     axiosGlobalMessageHandle = callback
 }
