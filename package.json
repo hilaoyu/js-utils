@@ -3,7 +3,7 @@
     "name": "hilaoyu"
   },
   "name": "js-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "js utils",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
