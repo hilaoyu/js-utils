@@ -61,7 +61,7 @@ const isNotNotUseAuthToken = function (){
     return notNotUseAuthToken
 }
 
-class leRouteClass {
+export class LeRoute {
     _quiet
     _loadingService
 
@@ -208,5 +208,4 @@ class leRouteClass {
     }
 }
 
-const LeRoute = new leRouteClass()
 export default LeRoute

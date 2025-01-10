@@ -4,7 +4,7 @@ const storageKeyLeClientSource = "LeClientSource"
 const storageKeyAuthLoggedUser = "authLoggedUser"
 const storageKeyAuthToken = "authToken"
 
-const StorageUtil = {
+export const StorageUtil = {
     serializeValue: function (value) {
         try {
             return JSON.stringify(value);
