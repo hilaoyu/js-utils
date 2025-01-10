@@ -33,6 +33,8 @@ export interface UtilsStatic  {
 	formatFileSize(value : number): string;
 	urlGetQueryParameter(name : string): string;
 	linkClick(url:string,target?:string): void;
+	syncRequest(method:string, remoteUrl:string,data?: Document | XMLHttpRequestBodyInit | null, withCredentials?:boolean, headers?:object):string;
+	syncRequestJson(method:string, remoteUrl:string,data?: Document | XMLHttpRequestBodyInit | null, withCredentials?:boolean, headers?:object):object|null;
 }
 
 export const Utils:UtilsStatic

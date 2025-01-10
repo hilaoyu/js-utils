@@ -17,14 +17,14 @@ export const Utils = {
         return false
     },
     isEmpty: function (obj) {
-        if (this.typeIs('undefined', obj) || null === obj ) {
+        if (this.typeIs('undefined', obj) || null === obj) {
             return true;
         }
-        if (this.typeIs('string', obj) ) {
+        if (this.typeIs('string', obj)) {
 
             return String(obj).length <= 0;
         }
-        if (this.typeIs('number', obj) ) {
+        if (this.typeIs('number', obj)) {
             return isNaN(obj);
         }
         if (this.typeIs('array', obj) || this.typeIs('object', obj)) {
@@ -310,18 +310,45 @@ export const Utils = {
         });
         return result;
     },
-    linkClick:function (url,target){
+    linkClick: function (url, target) {
         if (this.isEmpty(url)) {
             return;
         }
         let link = document.createElement('a')
-        if(!!target){
+        if (!!target) {
             link.setAttribute("target", target)
         }
 
         link.setAttribute("href", url)
         link.click()
-        return
+    },
+    syncRequest(method, remoteUrl,data, withCredentials, headers) {
+
+        const xhr = new XMLHttpRequest()
+
+        xhr.open(method, remoteUrl, false)
+        xhr.withCredentials = !!withCredentials
+
+        for (let k in headers) {
+            xhr.setRequestHeader(k, headers[k]);
+        }
+        xhr.send(data)
+
+        if (xhr.status === 200) {
+            return xhr.responseText
+        }
+        return ""
+
+    },
+    syncRequestJson(method, remoteUrl,data, withCredentials, headers) {
+        headers = Object.assign({}, headers)
+        headers['Content-Type'] = 'application/json'
+        headers['X-Requested-With'] = 'XMLHttpRequest'
+        let body = this.syncRequest(method,remoteUrl,data,withCredentials,headers)
+        if (!!body) {
+            return JSON.parse(body)
+        }
+        return null
     }
 }
 export default Utils

@@ -100,18 +100,10 @@ class leRouteClass {
             }
         } else if (routeName in leServiceRoutes) {
             route = leServiceRoutes[routeName]
-        } else if (!!globalRouteApi) {
-            let requestReturned = false
-            axios.quiet(true).apiGet(globalRouteApi, {name: routeName}).then(function (res) {
-                route = Utils.valueGet(res, 'data', {})
-                cacheSetLeServiceRoute(routeName, route)
-            }).finally(function () {
-                requestReturned = true
-            })
-
-            Utils.timeCountDown(180, null, function () {
-                return requestReturned
-            }, 1)
+        } else if (!!globalRouteApi && Utils.typeIs("string",globalRouteApi)) {
+            let res = Utils.syncRequestJson("GET",Utils.buildUrl(globalRouteApi,{name: routeName}),null,true,this.buildHeaders({}))
+            route = Utils.valueGet(res, 'data', {})
+            cacheSetLeServiceRoute(routeName, route)
         }
 
         if (!route || !Utils.typeIs('object', route)) {
@@ -167,19 +159,8 @@ class leRouteClass {
         this._loadingService = loadingService;
         return this
     }
-
-    request(api, params, headers) {
-        let _this = this;
-
-        let data = Object.assign({}, params)
-        let reqConfig = this.buildReqConfig(api, params);
-        if (!reqConfig) {
-            return Promise.reject(new AxiosError("路由错误"))
-        }
-        if (!!headers) {
-            headers = {}
-        }
-
+    buildHeaders(headers){
+        headers = Object.assign({},headers)
         if (!isNotNotUseAuthToken()){
             let tokenId = StorageUtil.getAuthToken('id', '');
             if(tokenId){
@@ -191,12 +172,22 @@ class leRouteClass {
         if(clientSource){
             headers['ClientSource'] = clientSource;
         }
-        reqConfig.headers = headers
+        return headers
+    }
+
+    request(api, params, headers) {
+
+        let reqConfig = this.buildReqConfig(api, params);
+        if (!reqConfig) {
+            return Promise.reject(new AxiosError("路由错误"))
+        }
+
+        reqConfig.headers = this.buildHeaders(headers)
 
 
         let _axios = newAxios()
         if (this._loadingService) {
-            _axios = _axios.useLoading(_this._loadingService)
+            _axios = _axios.useLoading(this._loadingService)
         }
 
 
