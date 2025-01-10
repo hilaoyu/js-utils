@@ -2,6 +2,8 @@ import "./src/prototypes"
 import "./src/utils";
 import "./src/axios";
 import "./src/uploader";
+import "./src/storage";
+import "./src/le-route";
 
 
 export * from "./src/utils";
