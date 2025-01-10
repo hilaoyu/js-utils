@@ -61,7 +61,7 @@ const isNotNotUseAuthToken = function (){
     return notNotUseAuthToken
 }
 
-export class LeRoute {
+export class LeRouteClass {
     _quiet
     _loadingService
 
@@ -207,5 +207,5 @@ export class LeRoute {
         Utils.linkClick(url, target)
     }
 }
-
+export const LeRoute = new LeRouteClass()
 export default LeRoute
