@@ -85,7 +85,7 @@ export const StorageUtil = {
         return true;
     },
     setClientSource: function () {
-        let source = getClientSource();
+        let source = this.getClientSource();
         if (!source) {
             source = Utils.uuid();
             this.sessionSet(storageKeyLeClientSource, source);

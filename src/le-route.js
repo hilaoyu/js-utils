@@ -84,15 +84,13 @@ export class LeRouteClass {
 
     getRoute(routeName) {
 
-        if (!Utils.typeIs('string', routeName)
-            || Utils.isEmpty(routeName)
-        ) {
+
+        if (!Utils.typeIs('string', routeName) || Utils.isEmpty(routeName)) {
             return null
         }
         let leServiceRoutes = cacheGetLeServiceRoutes()
 
         let route = null
-
         if (routeName?.includes('/')) {
             route = {
                 uri: routeName,
@@ -135,17 +133,20 @@ export class LeRouteClass {
         }
 
         let paraReg = new RegExp(/[\{\:\*]+([^\/]+)/, 'g');
-        let paraModReg = new RegExp(/[\*\?\:]/, 'g');
+        let paraModReg = new RegExp(/[\*\?\:\{\}]/, 'g');
         uri = uri.replace(paraReg, function (para, paraKey) {
             paraKey = paraKey.replace(paraModReg, '')
+
             let paraValue = Utils.valueGet(urlParams, paraKey, '-');
             if (!['PUT', 'POST', 'PATCH'].includes(method.toUpperCase())){
                 delete urlParams[paraKey]
             }
             return paraValue
         });
-
-        return {url: Utils.buildUrl(uri, urlParams), method: method, data: urlParams}
+        if (!['PUT', 'POST', 'PATCH'].includes(method.toUpperCase())){
+            uri = Utils.buildUrl(uri, urlParams)
+        }
+        return {url: uri, method: method, data: urlParams}
 
     }
 

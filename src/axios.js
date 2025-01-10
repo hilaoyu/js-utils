@@ -1,4 +1,4 @@
-import {AxiosError,default as axiosOrg ,async} from 'axios'
+import {AxiosError,default as axiosOrg } from 'axios'
 import Utils from "./utils";
 import Url from "url";
 let axiosGlobalMessageHandle = null
