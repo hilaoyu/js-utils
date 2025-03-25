@@ -3,7 +3,7 @@ import Utils from "./utils";
 import Url from "url";
 let axiosGlobalMessageHandle = null
 let axiosGlobalBaseUrl = ''
-export {AxiosError,AxiosRequestConfig} from 'axios'
+export {AxiosError} from 'axios'
 export function setAxiosGlobalMessageHandle(callback) {
     axiosGlobalMessageHandle = callback
 }
