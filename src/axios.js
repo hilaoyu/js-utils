@@ -25,20 +25,23 @@ function extendAxios(_axios) {
         if (!Utils.typeIs('object', error)) {
             error = new AxiosError()
         }
-        let msg = Utils.valueGet(error, 'response.data.message', '')
-        if ('CSRF token mismatch.' === msg) {
-            msg = '页面已过期，请刷新重试';
-        } else if ('Unauthenticated.' === msg) {
-            msg = '权限不足!'
-        }
-        if (!Utils.isEmpty(msg)) {
-            error.message += ":" + msg
+        if('~' === error.message){
+            let msg = Utils.valueGet(error, 'response.data.message', '')
+            if ('CSRF token mismatch.' === msg) {
+                msg = '页面已过期，请刷新重试';
+            } else if ('Unauthenticated.' === msg) {
+                msg = '权限不足!'
+            }
+            if (!Utils.isEmpty(msg)) {
+                error.message += ":" + msg
+            }
+
+            let errors = Utils.valueGet(error, 'response.data.errors', {})
+            if (!Utils.isEmpty(errors)) {
+                error.message += ":" + Utils.joinToString(errors, "<br>")
+            }
         }
 
-        let errors = Utils.valueGet(error, 'response.data.errors', {})
-        if (!Utils.isEmpty(errors)) {
-            error.message += ":" + Utils.joinToString(errors, "<br>")
-        }
         if (true !== _axios.requestIsQuiet) {
             _axios.message(error.message, 'error')
         }
