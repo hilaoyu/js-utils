@@ -100,7 +100,13 @@ function extendAxios(_axios) {
         );
         if (!res_data) {
             axiosError.message = "返回数据为空"
-            return Promise.reject(axiosError)
+            return _axios.promiseRejectError(axiosError)
+        }
+
+        let res_status = Utils.valueGet(res_data, 'status', false);
+
+        if (true !== res_status) {
+            return _axios.promiseRejectError(axiosError);
         }
 
         let res_code = Utils.valueGet(res_data, 'code', 0);
@@ -172,11 +178,6 @@ function extendAxios(_axios) {
                 break;
         }
 
-        let res_status = Utils.valueGet(res_data, 'status', false);
-
-        if (true !== res_status) {
-          return Promise.reject(axiosError);
-        }
         return res_data;
     }
     _axios.interceptorsResponseError = (error) => {
