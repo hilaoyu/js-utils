@@ -19,6 +19,7 @@ export function setAxiosGlobalLoadingServiceHandle(loadingService) {
 }
 
 function extendAxios(_axios) {
+    _axios.responseRealStatus = false
     _axios.defaults.timeout = 0
     _axios.defaults.withCredentials = true
     _axios.promiseRejectError = (error) => {
@@ -86,6 +87,7 @@ function extendAxios(_axios) {
 
 
     _axios.interceptorsResponseSuccess = async (response) => {
+        _axios.responseRealStatus = true
         _axios.tryCloseLoading()
         if (!Utils.valueGet(response, 'config.isApiRequest', false)) {
             return response
@@ -107,8 +109,6 @@ function extendAxios(_axios) {
         let res_status = Utils.valueGet(res_data, 'status', false);
 
         if (true !== res_status) {
-
-            console.log("aaaaa")
             //return Promise.reject(axiosError);
             return _axios.promiseRejectError(axiosError);
         }
@@ -190,7 +190,7 @@ function extendAxios(_axios) {
         return _axios.promiseRejectError(error);
     }
     _axios.interceptorsRequestBefore = async (config) => {
-
+        _axios.responseRealStatus = false
         let token = document.head.querySelector('meta[name="csrf-token"]');
         //laravel csrf-token
         if (token) {
@@ -340,7 +340,10 @@ function extendAxios(_axios) {
         return _axios.interceptorsResponseSuccess(response)
 
     }, function (error) {
-        return _axios.interceptorsResponseError(error)
+        if (!_axios.responseRealStatus ){
+            return _axios.interceptorsResponseError(error)
+        }
+
     });
 }
 
