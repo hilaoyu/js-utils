@@ -137,7 +137,7 @@ export class LeRouteClass {
         uri = uri.replace(paraReg, function (para, paraKey) {
             paraKey = paraKey.replace(paraModReg, '')
 
-            let paraValue = Utils.valueGet(urlParams, paraKey, '-');
+            let paraValue = Utils.valueGet(urlParams, paraKey, '');
             if (!['PUT', 'POST', 'PATCH'].includes(method.toUpperCase())){
                 delete urlParams[paraKey]
             }
