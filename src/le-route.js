@@ -64,6 +64,7 @@ const isNotNotUseAuthToken = function (){
 export class LeRouteClass {
     _quiet
     _loadingService
+    _useLoadingService=false
 
     constructor() {
         if (sessionIsChanged()) {
@@ -151,14 +152,17 @@ export class LeRouteClass {
     }
 
     quiet(isQuiet) {
-        this._quiet = isQuiet
-        return this
+        let _this = new LeRouteClass()
+        _this._quiet = isQuiet
+        return _this
     }
 
 
     useLoading(loadingService) {
-        this._loadingService = loadingService;
-        return this
+        let _this = new LeRouteClass()
+        _this._loadingService = loadingService;
+        _this._useLoadingService = true
+        return _this
     }
     buildHeaders(headers){
         headers = Object.assign({},headers)
@@ -187,7 +191,7 @@ export class LeRouteClass {
 
 
         let _axios = newAxios()
-        if (this._loadingService) {
+        if (this._useLoadingService) {
             _axios = _axios.useLoading(this._loadingService)
         }
 
