@@ -217,8 +217,7 @@ function extendAxios(_axios) {
 
     _axios.messageHandle = null
     _axios.setMessageHandle = (callback) => {
-        let _i = _axios.create()
-        extendAxios(_i)
+        let _i = Utils.deepClone(_axios)
         _i.messageHandle = callback
         return _i
     }
@@ -239,8 +238,7 @@ function extendAxios(_axios) {
 
     _axios.loadingService = null
     _axios.useLoading = (loadingService) => {
-        let _i = _axios.create()
-        extendAxios(_i)
+        let _i = Utils.deepClone(_axios)
         if (Utils.isEmpty(loadingService)) {
             loadingService = axiosGlobalLoadingServiceHandle()
         }
@@ -254,20 +252,18 @@ function extendAxios(_axios) {
         try {
             _axios.loadingService.close();
         } catch (e) {
-
+            console.error(e)
         }
     }
 
     _axios.requestIsQuiet = false
     _axios.quiet = (isQuiet) => {
-        let _i = _axios.create()
-        extendAxios(_i)
+        let _i = Utils.deepClone(_axios)
         _i.requestIsQuiet = !!isQuiet
         return _i
     }
     _axios.withBaseUrl = (uri) => {
-        let _i = _axios.create()
-        extendAxios(_i)
+        let _i = Utils.deepClone(_axios)
         _i.defaults.baseURL = uri
         return _i
     }

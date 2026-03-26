@@ -1,4 +1,5 @@
 export interface UtilsStatic  {
+	deepClone(obj : any): any;
 	typeIs(type : string, obj : any): boolean;
 	isUndefined(obj : any): boolean;
 	isEmpty(obj : any): boolean;

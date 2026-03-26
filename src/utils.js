@@ -3,6 +3,24 @@ import Url from 'url';
 import {Base64} from 'js-base64';
 
 export const Utils = {
+    deepClone: function (obj) {
+        if (obj === null) return null;
+        if (typeof obj !== "object") return obj;
+
+        if (typeof obj === "function") {
+            return obj; // 直接返回函数引用
+        }
+
+        if (Array.isArray(obj)) {
+            return obj.map(deepClone);
+        }
+
+        const result = {};
+        for (const key in obj) {
+            result[key] = deepClone(obj[key]);
+        }
+        return result;
+    },
     typeIs: function (type, obj) {
         type = String(type).toLowerCase();
         if ('array' == type) {
@@ -322,7 +340,7 @@ export const Utils = {
         link.setAttribute("href", url)
         link.click()
     },
-    syncRequest(method, remoteUrl,data, withCredentials, headers) {
+    syncRequest(method, remoteUrl, data, withCredentials, headers) {
 
         const xhr = new XMLHttpRequest()
 
@@ -340,11 +358,11 @@ export const Utils = {
         return ""
 
     },
-    syncRequestJson(method, remoteUrl,data, withCredentials, headers) {
+    syncRequestJson(method, remoteUrl, data, withCredentials, headers) {
         headers = Object.assign({}, headers)
         headers['Content-Type'] = 'application/json'
         headers['X-Requested-With'] = 'XMLHttpRequest'
-        let body = this.syncRequest(method,remoteUrl,data,withCredentials,headers)
+        let body = this.syncRequest(method, remoteUrl, data, withCredentials, headers)
         if (!!body) {
             return JSON.parse(body)
         }
