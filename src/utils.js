@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import Url from 'url';
 import {Base64} from 'js-base64';
+import qs from 'qs';
 
 export const Utils = {
     deepClone: function (obj) {
@@ -254,10 +255,16 @@ export const Utils = {
     buildUrl: function (uri, params) {
         if (this.typeIs('object', params)) {
             let urlParse = Url.parse(uri, true);
-            let urlQuery = this.valueGet(urlParse, 'query', {})
+            const query = {
+                ...urlParse.query,
+                ...params
+            };
+            //let urlQuery = this.valueGet(urlParse, 'query', {})
 
-            urlParse.query = Object.assign({}, urlQuery, params)
-            urlParse.search = ''
+            //urlParse.query = Object.assign({}, urlQuery, params)
+            urlParse.search = '?' + qs.stringify(query, {
+                arrayFormat: 'brackets' // 👉 生成 id[]=a&id[]=b
+            });
             //console.log(urlParse);
 
             uri = urlParse.format()
