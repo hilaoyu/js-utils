@@ -1,4 +1,4 @@
-import {AxiosError,default as axiosOrg } from 'axios'
+import {AxiosError,AxiosRequestConfig,default as axiosOrg } from 'axios'
 import Utils from "./utils";
 import Url from "url";
 let axiosGlobalMessageHandle = null
@@ -49,7 +49,9 @@ function extendAxios(_axios) {
         return Promise.reject(error);
     }
     _axios.buildAxiosRequestConfig = (reqConfig, data, headers, method)=> {
-        let axiosReqConfig
+        let axiosReqConfig = {
+            headers : {}
+        }
         if (Utils.typeIs('string', reqConfig)) {
             axiosReqConfig.url = reqConfig
         } else {
@@ -79,7 +81,7 @@ function extendAxios(_axios) {
             }
         }
         if (!Utils.isEmpty(headers)) {
-            axiosReqConfig.headers = Object.assign(axiosReqConfig.headers, headers)
+            axiosReqConfig.headers = Object.assign(axiosReqConfig.headers ? axiosReqConfig.headers:{}, headers)
         }
 
         return axiosReqConfig
