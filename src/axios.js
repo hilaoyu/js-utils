@@ -18,6 +18,28 @@ export function setAxiosGlobalLoadingServiceHandle(loadingService) {
     axiosGlobalLoadingServiceHandle = loadingService
 }
 
+/** Network Error / timeout 等英文统一为「网络错误」（toast / reject 前） */
+function normalizeAxiosNetworkErrorMessage(error) {
+    if (!error || typeof error !== 'object') {
+        return error
+    }
+    const msg = String(error.message || '')
+    const code = String(error.code || '')
+    const combined = `${msg} ${code}`.toLowerCase()
+    if (
+        /network\s*error/.test(combined)
+        || /timeout/.test(combined)
+        || /err_network/.test(combined)
+        || /econnaborted/.test(combined)
+        || /err_internet_disconnected/.test(combined)
+        || /failed to fetch/.test(combined)
+        || /net::/.test(combined)
+    ) {
+        error.message = '网络错误'
+    }
+    return error
+}
+
 function extendAxios(_axios) {
     _axios.responseRealStatus = false
     _axios.defaults.timeout = 0
@@ -42,6 +64,8 @@ function extendAxios(_axios) {
                 error.message += ":" + Utils.joinToString(errors, "<br>")
             }
         }
+
+        normalizeAxiosNetworkErrorMessage(error)
 
         if (true !== _axios.requestIsQuiet) {
             _axios.message(error.message, 'error')

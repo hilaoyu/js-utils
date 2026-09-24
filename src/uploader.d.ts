@@ -5,12 +5,19 @@ export interface fileQueueItem {
 	customId:any,
 	chunks:number,
 	chunksCompleted:Array<number>,
+	chunksCompletedMap?:Record<string, any>,
 	chunksCompletedPercent:number,
 	uploadCompleted:boolean,
 	url:string,
 	errorMessage:string,
 	controller:AbortController,
 	remove():void
+}
+
+export interface UploadResumeOptions {
+	taskId:string,
+	chunksCompleted?:Record<string, any>|Array<number>,
+	customId?:any
 }
 
 export class Uploader  {
@@ -23,7 +30,8 @@ export class Uploader  {
 	isReady():boolean
 
 	selectFile(multiple:boolean,clearQueue?:boolean,customId?:any,allowExt?:Array<string>):void
-	addFile(file:File,clearQueue?:boolean,customId?:any):void
+	addFile(file:File,clearQueue?:boolean,customId?:any,resumeOptions?:UploadResumeOptions):void
+	resumeFile(file:File,resumeOptions:UploadResumeOptions):void
 
 	getFileQueue():Array<fileQueueItem>
 	setEventOnError(callback:(err:Error) => void):void
@@ -34,4 +42,3 @@ export class Uploader  {
 	clear():void
 	fileQueueRemove(taskId:string):void
 }
-
