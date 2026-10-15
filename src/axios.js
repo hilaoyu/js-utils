@@ -1,4 +1,4 @@
-import {AxiosError,AxiosRequestConfig,default as axiosOrg } from 'axios'
+import {AxiosError,default as axiosOrg } from 'axios'
 import Utils from "./utils";
 import Url from "url";
 let axiosGlobalMessageHandle = null
@@ -353,7 +353,4 @@ export function newAxios(){
 
 export const axios = newAxios()
 extendAxios(axios)
-
-
-
 export default axios
