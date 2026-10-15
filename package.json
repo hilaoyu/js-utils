@@ -3,8 +3,8 @@
     "name": "hilaoyu"
   },
   "name": "js-utils",
-  "version": "1.0.6",
-  "description": "js utils",
+  "version": "22.0.1",
+  "description": "js utils node 22",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,11 +16,11 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.7.9",
-    "js-base64": "^3.7.7",
-    "p-queue": "^8.0.1",
+    "axios": "^1.20.0",
+    "js-base64": "^3.9.4",
+    "p-queue": "^10.0.0",
     "url": "^0.11.3",
-    "uuid": "^9.0.1",
-    "qs": "^6.14.0"
+    "uuid": "^14.0.3",
+    "qs": "^6.16.1"
   }
 }
