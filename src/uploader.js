@@ -7,7 +7,7 @@ export class Uploader {
         this.setServerUrl(serverUrl);
         this.requestQueue = new PQueue({concurrency: 1, autoStart: autoStart})
         let _this = this
-        this.requestQueue.on('idle',()=>{
+        this.requestQueue.onIdle().then(()=>{
             _this.triggerEventUploadFinished(false)
         })
     }
